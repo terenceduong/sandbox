@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Sandbox</title>
+
+    <script type="text/javascript">
+      function onSubmit(e) {
+        e.preventDefault();
+        var secretValue = document.getElementById('valuetextbox').value;
+        // alert('Your secret value is: ' + secretValue);
+        testGet();
+      }
+
+      function testGet() {
+        const promise = fetch('https://localhost:5001/api/values/3')
+          .then(function(response) {
+            const responseBody = response.body;
+            console.log('testGet(): response: ', response);
+            console.log('testGet(): response.body: ', responseBody);
+            return responseBody;
+          })
+          .then(body => {
+            const reader = body.getReader();
+            console.log('testGet(): body: ', body);
+            console.log('testGet(): body.getReader: ', reader);
+            return reader;
+          })
+          .catch(function(reason) {
+            console.log(
+              'testGet(): oh noes an error occurred resolving the promise'
+            );
+            result = false;
+          });
+        console.log('promise: ', promise);
+        // alert(result);
+        // return result;
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>Registration form</h1>
+    <form
+      action="https://localhost:5001/api/values"
+      method="POST"
+      id="registration_form"
+      onsubmit="onSubmit(event)"
+    >
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="user_name" />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="user_password" />
+      </div>
+      <div>
+        <label for="remember">Remember me:</label>
+        <input type="checkbox" id="remember" name="rememberme" />
+      </div>
+      <div>
+        <label for="valuetextbox">Super secret value</label>
+        <input type="text" id="valuetextbox" name="value" />
+      </div>
+      <div class="button">
+        <button type="submit">Register</button>
+        <button type="reset">Reset</button>
+      </div>
+    </form>
+  </body>
+</html>
