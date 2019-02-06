@@ -15,16 +15,9 @@
       function testGet() {
         const promise = fetch('https://localhost:5001/api/values/3')
           .then(function(response) {
-            const responseBody = response.body;
-            console.log('testGet(): response: ', response);
-            console.log('testGet(): response.body: ', responseBody);
-            return responseBody;
-          })
-          .then(body => {
-            const reader = body.getReader();
-            console.log('testGet(): body: ', body);
-            console.log('testGet(): body.getReader: ', reader);
-            return reader;
+            const responseBody = response.text().then(t => {
+              console.log('received: ', t);
+            });
           })
           .catch(function(reason) {
             console.log(
@@ -49,7 +42,12 @@
     >
       <div>
         <label for="name">Name:</label>
-        <input type="text" id="name" name="user_name" />
+        <input
+          type="text"
+          id="name"
+          name="user_name"
+          placeholder="Enter your username"
+        />
       </div>
       <div>
         <label for="password">Password:</label>
