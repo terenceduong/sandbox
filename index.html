@@ -7,9 +7,50 @@
     <script type="text/javascript">
       function onSubmit(e) {
         e.preventDefault();
-        var secretValue = document.getElementById('valuetextbox').value;
-        // alert('Your secret value is: ' + secretValue);
-        testGet();
+        var secretValue = document.getElementById('secret-value-textbox').value;
+        // testGet();
+        postForm();
+      }
+
+      // what is the diff between form.submit and addEventListener
+      //form.submit = onSubmit;
+      //addEventListener()
+      //removeEventListener()
+      // ask MJ about fancy pants clicking (Bubbling)
+      // try <select>, <input type="radio">, <textarea></textarea>, <input type="date|email|color" <input type="hidden" name="userid" value="234324" />
+
+      // history
+      //   new ActiveXObject("Microsoft.")
+      //   XMLHttpRequest
+
+      //   if( window.XMLHttpRequest ) {
+      //       //standards mode
+      //   } else {
+      //       // microsoft mode
+      //       new ActiveXObject;
+      //   }
+
+      //   //xhr
+
+      //   JSON.parse("{ \"id\": \"34\" }")
+      //   JSON.stringify({ id : "34" })
+
+      //   //xhr 2
+
+      //   //fetch api
+
+      //   //ajax = asynchronous json and xml
+      function postForm() {
+        var form = document.getElementById('registration-form');
+        const numberOfFormElements = form.elements.length;
+        console.log('numberOfFormElements: ', numberOfFormElements);
+
+        // for (var i = 0; i < numberOfFormElements; i++) {
+        // }
+
+        const promise = fetch('https://localhost:5001/api/registration', {
+          method: 'POST'
+        });
       }
 
       function testGet() {
@@ -35,36 +76,80 @@
   <body>
     <h1>Registration form</h1>
     <form
-      action="https://localhost:5001/api/values"
+      action="https://localhost:5001/api/registration"
       method="POST"
-      id="registration_form"
-      onsubmit="onSubmit(event)"
+      id="registration-form"
+      name="reg-form"
     >
       <div>
         <label for="name">Name:</label>
         <input
           type="text"
           id="name"
-          name="user_name"
+          name="userName"
           placeholder="Enter your username"
         />
       </div>
       <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="user_password" />
+        <input type="password" id="password" name="userPassword" />
       </div>
       <div>
         <label for="remember">Remember me:</label>
-        <input type="checkbox" id="remember" name="rememberme" />
+        <input type="checkbox" id="remember" name="rememberMe" />
       </div>
       <div>
-        <label for="valuetextbox">Super secret value</label>
-        <input type="text" id="valuetextbox" name="value" />
+        <label for="secretValueTextbox">Super secret value</label>
+        <input type="text" id="secretValueTextbox" name="secretValueText" />
       </div>
+      <br />
+      <div>
+        <label for="lunch-select">What's for lunch?</label>
+        <br />
+        <select
+          id="lunch-select"
+          name="lunch-option"
+          required
+          multiple
+          size="10"
+        >
+          <option value="steak">Steak</option>
+          <option value="mcdonalds">McDonald's</option>
+          <option value="salad">Salad</option>
+          <option value="pineapples">Pineapples</option>
+        </select>
+      </div>
+      <br />
+      <div>
+        <label for="age">Age?</label>
+        <br />
+        <input type="radio" name="age" value="old" />Old
+        <input type="radio" name="age" value="not-old" />Not old
+      </div>
+
+      <br />
+      <div>
+        <label for="favourite-movie">What's your favourite movie?</label>
+        <br />
+        <textarea
+          id="favourite-movie"
+          name="favourite-movie"
+          rows="7"
+          cols="40"
+          placeholder="Write your answer here"
+        ></textarea>
+      </div>
+      <br />
       <div class="button">
         <button type="submit">Register</button>
         <button type="reset">Reset</button>
       </div>
+
+      <input
+        type="hidden"
+        name="secreter-value"
+        value="this is an even secreter value"
+      />
     </form>
   </body>
 </html>
